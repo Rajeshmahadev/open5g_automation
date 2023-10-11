@@ -1,0 +1,31 @@
+# Ignore specific files and directories in a Terraform project
+
+# Specific files
+main.sh
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# .terraform directory
+.terraform/
+
+# .tfvars files, which may contain sensitive information
+*.auto.tfvars
+*.auto.tfvars.json
+*.tfvars
+
+# Override filessudo apt autoremove
+ as they are usually used to override default values
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Additional files
+terraform.tfstate.backup
+open5gs_new_github_actions/
