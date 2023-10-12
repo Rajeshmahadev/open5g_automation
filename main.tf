@@ -106,24 +106,29 @@ resource "aws_security_group" "SG3" {
 
 # key pair creation
 
-resource "aws_key_pair" "tf-key-pair" {
-  key_name   = "tf-key-pair"
-  public_key = tls_private_key.rsa.public_key_openssh
+resource "aws_key_pair" "tf-key-pair-3" {
+  key_name   = "tf-key-pair-3"
+  public_key = tls_private_key.rsa3.public_key_openssh
 }
-resource "tls_private_key" "rsa" {
+
+resource "tls_private_key" "rsa3" {
   algorithm = "RSA"
   rsa_bits  = 4096
 }
-resource "local_file" "tf-key" {
-  content  = tls_private_key.rsa.private_key_pem
-  filename = "tf-key-pair"
+
+resource "local_file" "tf-key-3" {
+  content  = tls_private_key.rsa3.private_key_pem
+  filename = "tf-key-pair-3"
 }
+
+
+
 
 resource "aws_instance" "ec2-web3" {
   ami                         = "ami-007855ac798b5175e"
   instance_type               = "t2.medium"
   availability_zone           = "us-east-1c"
-  key_name                    = "tf-key-pair"
+  key_name                    = "tf-key-pair-3"
   vpc_security_group_ids      = ["${aws_security_group.SG3.id}"]
   subnet_id                   = aws_subnet.subnet_vpc3_1.id
   associate_public_ip_address = true
@@ -153,7 +158,7 @@ resource "null_resource" "null-res-03" {
     type        = "ssh"
     host        = aws_instance.ec2-web3.public_ip
     user        = "ubuntu"
-    private_key = tls_private_key.rsa.private_key_pem
+    private_key = tls_private_key.rsa3.private_key_pem
   }
 
   # Define the provisioner for remote execution.
