@@ -1,0 +1,47 @@
+name: Terraform Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - feature-branch
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2 
+
+      - name: Set up AWS credentials
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID # Configures AWS access key ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY # Configures AWS secret access key
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.5.7 
+
+      - name: Initialize Terraform
+        run: terraform init 
+
+      - name: Validate Terraform
+        run: terraform validate 
+
+      - name: Plan Terraform Changes
+        run: terraform plan -out=tfplan 
+        continue-on-error: true 
+
+      - name: Apply Terraform Changes
+        if: ${{ success() }} 
+        run: terraform apply -auto-approve tfplan 
+
+      - name: Cleanup Terraform Files
+        if: ${{ success() }} 
+        run: rm -f tfplan
