@@ -167,3 +167,14 @@ resource "null_resource" "null-res-03" {
   # Specify that this null_resource depends on the completion of aws_instance.ec2-web3.
   depends_on = [aws_instance.ec2-web3]
 }
+
+
+terraform {
+  backend "s3" {
+    bucket = "my-tf-test-bucket-open5gs-monitoring-automation"
+    dynamodb_table = "state-lock-monitoring"
+    key    = "global/mystate/terraform.tfstate"
+    region = "us-east-1"
+    encrypt = true
+  }
+}
