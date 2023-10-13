@@ -10,7 +10,7 @@ resource "aws_vpc" "vpc2" {
   instance_tenancy = "default"
 
   tags = {
-    Name = "open5gs-VPC2-ran"
+    Name = "open5gs-VPC2-ran-02"
   }
 }
 
