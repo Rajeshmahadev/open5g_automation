@@ -10,7 +10,7 @@ resource "aws_vpc" "vpc3" {
   instance_tenancy = "default"
 
   tags = {
-    Name = "open5gs-VPC3"
+    Name = "open5gs-VPC3-monitoring"
   }
 }
 
