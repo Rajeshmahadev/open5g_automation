@@ -12,7 +12,7 @@ resource "aws_vpc" "vpc1" {
   instance_tenancy = "default"
 
   tags = {
-    Name = "open5gs-VPC1-core"
+    Name = "open5gs-VPC1-core-02"
   }
 }
 
