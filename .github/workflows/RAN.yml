@@ -3,9 +3,9 @@ name: Terraform Workflow
 on:
   push:
     branches:
-      - main
-      - master
-      - feature-branch
+      - core
+      - monitoring
+      - ran
 
 jobs:
   terraform:
